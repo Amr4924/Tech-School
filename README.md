@@ -27,9 +27,9 @@
 
 ## 📖 Overview
 
-**Tech School** is a Flutter UI project I built while learning mobile development fundamentals. It's a complete, navigable e-learning app concept — from the very first onboarding swipe to a working login form, a home dashboard, a course catalog, and a profile screen — all wired together with real navigation instead of static screenshots.
+**Tech School** is a Flutter UI project I built while learning mobile development fundamentals. It's a complete, navigable e-learning app concept — from the very first onboarding swipe to a working login form, a personalized home dashboard, a course catalog, and a profile screen — all wired together with real navigation instead of static screenshots.
 
-This is currently a **frontend/UI prototype**: every screen renders and feels real, but the data is local mock data and there's no backend behind it yet. That part is intentional — the goal of this project was to get comfortable with Flutter's core building blocks before adding real services on top.
+This is currently a **frontend/UI prototype**: every screen renders and feels real, and the email + name you log in with now actually flow through every screen (Home's greeting, the drawer, your Profile card). The course catalog, cart, and notifications are still local mock data — there's no backend behind it yet. That part is intentional — the goal of this project was to get comfortable with Flutter's core building blocks before adding real services on top.
 
 ## ✨ Features
 
@@ -41,20 +41,31 @@ This is currently a **frontend/UI prototype**: every screen renders and feels re
 - Email + password form with live validation (valid email format, 8+ character password)
 - Password visibility toggle
 - Friendly `SnackBar` feedback when the form is incomplete
+- On success, your email (and a display name) get passed down into every other screen — no more hardcoded placeholder data
 
 **🏠 Home**
-- Search bar and a promo/advertising banner slot
+- Personalized greeting — *"Hello {first name} 👋"* — pulled straight from your login info
+- Search bar and a fully designed promo banner ("Master Mobile App Development")
+- 🔔 Notification bell that opens a real Notifications screen
+- Tapping your profile photo jumps straight to the Profile tab (no extra navigation stack)
 - "Your Progress" tracker with animated linear progress bars across 5 languages
 - Horizontally scrollable "Programming Paths" avatars
-- Side drawer with profile summary, quick links, and social icons
+- Side drawer with your real photo, name, and email, a Purchase History shortcut, plus social icons
 
 **📚 Courses**
 - Catalog of **15 mock courses** across 7 categories (Web, Cross-platform, Mobile, Database, DevOps, Security, Foundations)
 - Responsive 2-column grid of course cards with image, category tag, price (in EGP), and an "Enroll Now" CTA
-- Category filter chips and a bookmark/cart icon in the app bar (UI in place, ready to be wired up — see [Roadmap](#️-roadmap))
+- Same promo banner as Home, plus category filter chips (UI in place, not filtering yet — see the Roadmap below)
+- 🛒 Cart and 🔖 Favorites icons in the app bar now open real screens instead of doing nothing
+
+**🛒 Cart · 🔖 Favorites · 🔔 Notifications**
+- Three new standalone screens, reachable from Home and Courses
+- Each has its own purple app bar and a clean, honest empty state ("Your cart is empty", "No Favorite", "No notifications")
+- Cart includes a "Continue shopping" button that pops you back to where you came from
+- These are UI shells for now — the logic to actually add/remove items isn't wired up yet
 
 **👤 Profile**
-- Student info card (name, email, phone) with an edit shortcut
+- Student info card with your real name & email (from login) plus a placeholder phone number, and an edit shortcut (UI only for now)
 - Same progress tracker as Home, reused as a shared widget
 - Drawer with Settings, Help & Support, and a working **Log Out** flow that returns you to the login screen
 
@@ -69,9 +80,9 @@ This is currently a **frontend/UI prototype**: every screen renders and feels re
 <div align="center">
 <table>
 <tr>
-<td align="center" width="33%"><img src="assets/img1.png" width="100%"/><br/><sub>Onboarding · Step 1</sub></td>
-<td align="center" width="33%"><img src="assets/img2.png" width="100%"/><br/><sub>Onboarding · Step 2</sub></td>
-<td align="center" width="33%"><img src="assets/img3.png" width="100%"/><br/><sub>Onboarding · Step 3</sub></td>
+<td align="center" width="33%"><img src="assets/img1.png" width="100%"/><br/><sub>"Start Your Coding Journey"</sub></td>
+<td align="center" width="33%"><img src="assets/img2.png" width="100%"/><br/><sub>"Build Modern Mobile Apps"</sub></td>
+<td align="center" width="33%"><img src="assets/img3.png" width="100%"/><br/><sub>"Turn Ideas Into Reality"</sub></td>
 </tr>
 </table>
 </div>
@@ -96,10 +107,14 @@ lib/
 ├── on_boarding_Screen.dart    # 3-page onboarding flow
 ├── login.dart                 # Login screen + form validation
 ├── mainScreen.dart            # Bottom navigation shell (Home / Courses / Profile)
-└── nav_bar/
-    ├── home.dart               # Home dashboard
-    ├── courses.dart            # Course catalog + shared drawer & advertising card widgets
-    └── profile.dart            # Profile, progress tracker & logout flow
+├── nav_bar/
+│   ├── home.dart               # Home dashboard
+│   ├── courses.dart            # Course catalog + shared drawer & advertising card widgets
+│   └── profile.dart            # Profile, progress tracker & logout flow
+└── action/
+    ├── cart.dart                # Cart screen (empty state)
+    ├── favorite.dart            # Favorites screen (empty state)
+    └── notifications.dart       # Notifications screen (empty state)
 ```
 
 ## 🚀 Getting Started
@@ -124,19 +139,25 @@ flutter run
 - `ListView.builder` and `GridView.builder` for dynamic, data-driven lists
 - Building small, reusable widgets and sharing them across files via imports
 - Custom theming: shadows, rounded containers, and a consistent color palette
+- Passing data down through widget constructors across multiple screens (Login → MainScreen → Home/Courses/Profile) instead of repeating hardcoded values
+- Using a `VoidCallback` so a child widget (Home's avatar) can tell its parent (MainScreen) to switch tabs
+- Wiring `IconButton`s up to real `Navigator.push` destinations (Cart, Favorites, Notifications)
 
 ## 🛣️ Roadmap
 
 Things I know are missing and plan to come back to:
 
-- [ ] Wire up the category filter chips on the Courses screen (they currently don't filter)
+- [ ] Wire up the category filter chips on Courses (and fix the category list so it actually matches the course data — e.g. "Moble App" → "Mobile")
 - [ ] Make the search bars actually search
+- [ ] Add real add/remove logic to Cart & Favorites instead of a permanent empty state
+- [ ] Wire up the "Enroll Now" buttons (on course cards and the promo banner)
+- [ ] Wire up Settings, Help & Support, Purchase History, and the Profile edit icon (currently empty taps)
 - [ ] Add `smooth_page_indicator` dots to the onboarding `PageView` (the package is already a dependency)
-- [ ] Fill in the empty advertising/promo card on Home & Courses
-- [ ] Real state management (Provider / Riverpod / Bloc)
+- [ ] Let the user actually type their display name on Login (it's currently a single hardcoded variable)
+- [ ] Real state management (Provider / Riverpod / Bloc) instead of passing data through constructors screen by screen
 - [ ] Real authentication (Firebase Auth or a REST API) instead of client-side-only validation
 - [ ] Course details page + enroll/checkout flow
-- [ ] Persist user session & course progress
+- [ ] Persist user session, cart, and course progress
 - [ ] Widget/unit tests
 - [ ] Rename the package id (currently the default `com.example.app2`) before any real release
 
