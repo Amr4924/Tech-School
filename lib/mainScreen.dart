@@ -18,12 +18,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // ------ Areas responsible for navigating between pages ------
   int selectIndex = 0;
   void changeIndex(int index) {
     setState(() {
       selectIndex = index;
     });
   }
+
+  /*
+  List of widgets for accessing and displaying 
+  pages using bottomNavigationBar
+   */
   List<Widget> get pages => [
     HomeScreen(
       UserName: widget.userName,
@@ -37,8 +43,8 @@ class _MainScreenState extends State<MainScreen> {
       urlPhoto:
           widget.photoUrl ??
           "https://i.pinimg.com/736x/50/88/12/50881235e972feea21d85fc46bb5e301.jpg",
-          userEmail: widget.userEmail,
-          userName:widget.userName,
+      userEmail: widget.userEmail,
+      userName: widget.userName,
     ),
     ProfileScreen(
       userEmail: widget.userEmail,

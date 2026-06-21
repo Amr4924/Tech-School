@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
   bool hiddenPassword = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final String userName = "Amr Saad"; // <-- Change the display name -->
+  final String userName = "Ahmed"; // <-- Change the display name -->
   final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
@@ -175,7 +175,7 @@ class _LoginState extends State<Login> {
                               onPressed: () {
                                 // -------- Check if it will return something or is null --------
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.push(
+                                  Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => MainScreen(
@@ -183,6 +183,7 @@ class _LoginState extends State<Login> {
                                         userName: userName,
                                       ),
                                     ),
+                                    (route) => false,
                                   );
 
                                   // -------- If something is returned, an error message will appear. --------

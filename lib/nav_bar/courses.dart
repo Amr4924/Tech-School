@@ -1,3 +1,5 @@
+import 'package:app2/action/cart.dart';
+import 'package:app2/action/favorite.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
@@ -162,12 +164,25 @@ class _CoursesScreenState extends State<CoursesScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.shopping_bag)),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CartScreen()),
+                );
+              },
+              icon: Icon(Icons.shopping_bag),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavoriteScreen()),
+                );
+              },
               icon: Icon(Icons.bookmark, color: Colors.yellowAccent),
             ),
           ),
@@ -176,7 +191,6 @@ class _CoursesScreenState extends State<CoursesScreen> {
       body: ListView(
         children: [
           buildSeartch(),
-          SizedBox(height: 20),
           buildAdvertisingCard(context: context),
           SizedBox(height: 20),
           SizedBox(
@@ -243,10 +257,7 @@ Widget buildDrawer({
         Divider(height: 20),
         buildBottonsDrawer(icon: Icons.settings, title: "Settings"),
         buildBottonsDrawer(icon: Icons.support, title: "Help & Support"),
-        buildBottonsDrawer(
-          icon: Icons.receipt_long,
-          title: "Purchase History",
-        ),
+        buildBottonsDrawer(icon: Icons.receipt_long, title: "Purchase History"),
         Divider(height: 20),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -261,12 +272,12 @@ Widget buildDrawer({
             ),
           ),
         ),
-        SizedBox(height: 20,),
+        SizedBox(height: 20),
         Row(
           children: [
             buildIconSocial(icon: Icons.facebook),
             buildIconSocial(icon: Icons.camera_alt),
-            buildIconSocial(icon: Icons.alternate_email ),
+            buildIconSocial(icon: Icons.alternate_email),
           ],
         ),
       ],
@@ -274,6 +285,7 @@ Widget buildDrawer({
   );
 }
 
+// ----- Build Icon Social --------
 Widget buildIconSocial({required IconData icon}) {
   return Expanded(
     child: InkWell(
@@ -283,6 +295,7 @@ Widget buildIconSocial({required IconData icon}) {
   );
 }
 
+// ----- Build Bottons Drawer --------
 Widget buildBottonsDrawer({required String title, required IconData icon}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -308,9 +321,8 @@ Widget buildAdvertisingCard({required BuildContext context}) {
     padding: const EdgeInsets.all(8.0),
     child: Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.25,
       decoration: BoxDecoration(
-        color: const Color(0xFFF3E5F5),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
@@ -321,7 +333,80 @@ Widget buildAdvertisingCard({required BuildContext context}) {
           ),
         ],
       ),
-      child: Column(),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize:
+              MainAxisSize.min, // علشان الكارد مياخدش الشاشة كلها بالطول
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "MASTER MOBILE APP\nDEVELOPMENT",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.width * 0.045,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "BUILD APPS LIKE THIS ONE",
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: MediaQuery.of(context).size.width * 0.035,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 2,
+                  child: Image.asset(
+                    "assets/cardImg2.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.purpleAccent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    "Enroll Now",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }
@@ -362,7 +447,6 @@ Widget _buildFillterButtons({required List<String> cat, required int indx}) {
 }
 
 // ----- Build Course Content Card--------
-
 Widget _buidlCourseContentCard({
   required BuildContext context,
   // ignore: non_constant_identifier_names
@@ -386,129 +470,130 @@ Widget _buidlCourseContentCard({
       ],
     ),
     child: GridView.builder(
-  physics: const NeverScrollableScrollPhysics(),
-  shrinkWrap: true,
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    childAspectRatio: 0.60, 
-    crossAxisSpacing: 10,
-    mainAxisSpacing: 10,
-  ),
-  itemCount: Prodact.length,
-  itemBuilder: (BuildContext context, int index) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0), 
-      child: Card(
-        color: Colors.white,
-        elevation: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              child: Image.network(
-                Prodact[index]['img'] as String,
-                height: 120, 
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.60,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
+      itemCount: Prodact.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Card(
+            color: Colors.white,
+            elevation: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    Prodact[index]['img'] as String,
+                    height: 120,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
 
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-
-                  Expanded(
-                    child: Text(
-                      Prodact[index]["title"] as String,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis, 
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15, 
-                        fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          Prodact[index]["title"] as String,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 4), 
-                  
-                  // 2. الـ Category Tag
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.purpleAccent,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      Prodact[index]["category"] as String,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11, 
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            // الـ Row الثاني: السعر
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: Row(
-                children: [
-                  Text(
-                    "Price: ${Prodact[index]["price"] as int} L.E.",
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            const Spacer(), 
+                      const SizedBox(width: 4),
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  height: 40, 
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.circular(20),
+                      // ---- Category Tag ----
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          Prodact[index]["category"] as String,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Center(
-                    child: Text(
-                      "Enroll Now",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                ),
+
+                // --- Responsible for price -----
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 4.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Price: ${Prodact[index]["price"] as int} L.E.",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const Spacer(),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.purpleAccent,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Enroll Now",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  },
-)
+          ),
+        );
+      },
+    ),
   );
 }

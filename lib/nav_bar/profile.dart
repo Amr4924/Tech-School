@@ -1,3 +1,4 @@
+import 'package:app2/login.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -32,29 +33,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Divider(height: 40),
-            ListTile(leading: Icon(Icons.settings), title: Text("Settings",style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),)),
+            InkWell(
+              onTap: () {},
+              child: ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(
+                  "Settings",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.support),
-              title: Text("Help and support",style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),),
+            InkWell(
+              onTap: () {},
+              child: ListTile(
+                leading: Icon(Icons.support),
+                title: Text(
+                  "Help and support",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             ListTile(
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                  (route) => false,
+                );
               },
               leading: Icon(Icons.logout),
-              title: Text("Log Out",style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),),
+              title: Text(
+                "Log Out",
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
@@ -215,11 +237,7 @@ Widget _buildProgress() {
               progress: "70%",
               valueProgress: 0.7,
             ),
-            buildLinearProgress(
-              lng: "C#",
-              progress: "50%",
-              valueProgress: 0.5,
-            ),
+            buildLinearProgress(lng: "C#", progress: "50%", valueProgress: 0.5),
             buildLinearProgress(
               lng: "Dart",
               progress: "40%",

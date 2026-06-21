@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:app2/action/notifications.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'courses.dart';
 import 'profile.dart';
+// ignore: unused_import
 
 class HomeScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
@@ -52,7 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Notification(),
+                ),
+              );
+            },
             icon: Icon(Icons.notifications, color: Colors.amberAccent),
           ),
           Padding(
