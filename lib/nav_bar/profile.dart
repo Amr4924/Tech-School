@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),)),
             SizedBox(height: 20),
             ListTile(
-              leading: Icon(Icons.help),
+              leading: Icon(Icons.support),
               title: Text("Help and support",style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,

@@ -1,6 +1,15 @@
 import 'package:app2/mainScreen.dart';
 import 'package:flutter/material.dart';
 
+/*
+        ------ Login screen ------
+
+    1- Data verification
+    2- Providing hints to help the user log in
+    3- Modern design and attractive shape
+
+ */
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -12,7 +21,7 @@ class _LoginState extends State<Login> {
   bool hiddenPassword = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  final String userName = "Amr Saad";
+  final String userName = "Amr Saad"; // <-- Change the display name -->
   final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
@@ -28,6 +37,7 @@ class _LoginState extends State<Login> {
       body: Column(
         children: [
           SizedBox(height: 80),
+          // ------ Screen Title ------
           Center(
             child: Text(
               "Login",
@@ -40,10 +50,13 @@ class _LoginState extends State<Login> {
           ),
           SizedBox(height: 20),
 
+          // ------ View login content ------
           Expanded(
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
+
+                // ------ Give BorderRadius from the top north of the container ------
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(110)),
               ),
               child: ListView(
@@ -60,6 +73,8 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+
+                  // ------ The part responsible for data transmission and validation ------
                   Form(
                     key: _formKey,
                     child: Column(
@@ -68,8 +83,11 @@ class _LoginState extends State<Login> {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: TextFormField(
-                            autofocus: true,
+                            autofocus:
+                                true, // <-- Focusing on the right is automatic
                             controller: emailController,
+
+                            // -------- Email validator section --------
                             validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return "The field is empty";
@@ -79,6 +97,8 @@ class _LoginState extends State<Login> {
                               }
                               return null;
                             },
+
+                            // -------- Field style part --------
                             decoration: InputDecoration(
                               labelText: "Email",
                               hintText: "email@gmail.com",
@@ -98,6 +118,8 @@ class _LoginState extends State<Login> {
                           child: TextFormField(
                             controller: passwordController,
                             obscureText: hiddenPassword,
+
+                            // -------- Password validator section --------
                             validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return "The field is empty";
@@ -106,6 +128,8 @@ class _LoginState extends State<Login> {
                               }
                               return null;
                             },
+
+                            // -------- Field style part --------
                             decoration: InputDecoration(
                               labelText: "Password",
                               hintText: "********",
@@ -115,6 +139,8 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               prefixIcon: Icon(Icons.lock_outline_rounded),
+
+                              // -------- Hide password icon --------
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -131,6 +157,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
 
+                        // -------- Login button --------
                         SizedBox(
                           width: double.infinity,
                           child: Padding(
@@ -146,6 +173,7 @@ class _LoginState extends State<Login> {
                               ),
 
                               onPressed: () {
+                                // -------- Check if it will return something or is null --------
                                 if (_formKey.currentState!.validate()) {
                                   Navigator.push(
                                     context,
@@ -156,6 +184,8 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                   );
+
+                                  // -------- If something is returned, an error message will appear. --------
                                 } else {
                                   SnackBar snackBar = SnackBar(
                                     backgroundColor: Colors.purple,

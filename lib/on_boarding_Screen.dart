@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'login.dart';
 
@@ -11,30 +10,47 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  List<Map<String, String>> content = [
+    {
+      "title": "Start Your Coding Journey",
+      "description":
+          "Learn programming step by step and build a strong foundation for creating real-world applications.",
+      "imgUrl": "assets/img1.png",
+    },
+    {
+      "title": "Build Modern Mobile Apps",
+      "description":
+          "Transform your ideas into beautiful and responsive mobile applications using modern development tools.",
+      "imgUrl": "assets/img2.png",
+    },
+    {
+      "title": "Turn Ideas Into Reality",
+      "description":
+          "Create projects, improve your skills, and bring your innovative ideas to life through technology.",
+      "imgUrl": "assets/img3.png",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
         children: [
           _buildOnboardingScreen(
-            title: "Start Your Coding Journey",
-            subtitle:
-                "Learn programming step by step and build a strong foundation for creating real-world applications.",
-            url: "assets/img1.png",
+            title: content[0]["title"] as String,
+            subtitle: content[0]["description"] as String,
+            url: content[0]["imgUrl"] as String,
             context: context,
           ),
           _buildOnboardingScreen(
-            title: "Build Modern Mobile Apps",
-            subtitle:
-                "Transform your ideas into beautiful and responsive mobile applications using modern development tools.",
-            url: "assets/img2.png",
+            title: content[1]["title"] as String,
+            subtitle: content[1]["description"] as String,
+            url: content[1]["imgUrl"] as String,
             context: context,
           ),
           _buildOnboardingScreen(
-            title: "Turn Ideas Into Reality",
-            subtitle:
-                "Create projects, improve your skills, and bring your innovative ideas to life through technology.",
-            url: "assets/img3.png",
+            title: content[2]["title"] as String,
+            subtitle: content[2]["description"] as String,
+            url: content[2]["imgUrl"] as String,
             context: context,
           ),
         ],
@@ -43,6 +59,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
+
+// ------ Build On Border Screen --------
 Widget _buildOnboardingScreen({
   required String url,
   required String title,
@@ -54,6 +72,7 @@ Widget _buildOnboardingScreen({
     child: ListView(
       children: [
         SizedBox(height: 150),
+        // ---- Import images from app files ------
         Center(child: Image.asset(url, height: 250)),
         SizedBox(height: 70),
         SizedBox(
@@ -80,12 +99,17 @@ Widget _buildOnboardingScreen({
         ),
         SizedBox(height: 50),
 
+        // ---- Finish on border and proceed directly to login ----
         Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                //Go to the login page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
               },
               child: Container(
                 height: 40,
@@ -94,6 +118,8 @@ Widget _buildOnboardingScreen({
                   color: Colors.purple,
                   borderRadius: BorderRadius.circular(20),
                 ),
+
+                // ---- Jump button style ----
                 child: Center(
                   child: Text(
                     "Get Started",
